@@ -33,6 +33,15 @@ class Library extends Component {
     open: true,
     freeBookmark: true,
     hiring: true,
+    data: [],
+    loading: false,
+  }
+
+  componentDidMount() {
+    this.setState({loading: true})
+    fetch('https://hplussport.com/api/products/order/price/sort/asc/qty/1')
+      .then(data => data.json())
+      .then(data => this.setState({data, loading: false}))
   }
 
   // Arrow functions automatically bind 'this'
@@ -47,6 +56,19 @@ class Library extends Component {
     return (
       <div>
         {this.state.hiring ? <Hiring /> : <NotHiring />}
+        {this.state.loading
+          ? 'loading...'
+          : <div>
+            {this.state.data.map( product => {
+              return(
+                <div key={product.id}>
+                  <h3>Library Product of the Week!</h3>
+                  <h4>{product.name}</h4>
+                  <img alt={product.name} src={product.image} height={100}/>
+                </div>
+              )
+            })}
+          </div> }
         <h1>The library is: {this.state.open ? 'Open' : 'Closed'}</h1>
         <button onClick={this.toggleOpenClosed}>Change</button>
         {books.map(
