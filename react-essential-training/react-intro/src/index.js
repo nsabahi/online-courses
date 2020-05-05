@@ -1,5 +1,5 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React, { Component } from 'react'
+import { render } from 'react-dom'
 
 let exerciseData = {
   total: 50,
@@ -9,31 +9,37 @@ let exerciseData = {
   goal: 100,
 }
 
-class ExerciseDayCounter extends React.Component {
-  render() {
-    return (
-      <section>
-        <div>
-          <p>Total: {this.props.total}</p>
-        </div>
-        <div>
-          <p>Biking: {this.props.biking}</p>
-        </div>
-        <div>
-          <p>Basketball: {this.props.basketball}</p>
-        </div>
-        <div>
-          <p>Workout: {this.props.workout}</p>
-        </div>
-        <div>
-          <p>Goal: {this.props.goal}</p>
-        </div>
-      </section>
-    )
-  }
+const getPercent = (decimal) => {
+  return decimal * 100 + "%"
 }
 
-ReactDOM.render(
+const calcGoalProgress = (total, goal) => {
+  return getPercent( total / goal )
+}
+
+const ExerciseDayCounter = ({total, biking, basketball, workout, goal}) => {
+  return (
+    <section>
+      <div>
+        <p>Total: {total}</p>
+      </div>
+      <div>
+        <p>Biking: {biking}</p>
+      </div>
+      <div>
+        <p>Basketball: {basketball}</p>
+      </div>
+      <div>
+        <p>Workout: {workout}</p>
+      </div>
+      <div>
+        <p>Goal Progress: {calcGoalProgress(total, goal)}</p>
+      </div>
+    </section>
+  )
+}
+
+render(
   <ExerciseDayCounter 
     total={exerciseData.total}
     biking={exerciseData.biking}
